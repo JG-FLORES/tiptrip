@@ -89,7 +89,7 @@ function insertNewPlace(country, state, title, description, latitude, longitude,
     } else {
       // Data saved successfully!
       alert("Place saved successfully!");
-      $("#frmPlace").reset();
+      $("#frmPlace")[0].reset();
       $("#imgPlace").hide();
     }
   });
