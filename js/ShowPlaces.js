@@ -2,18 +2,20 @@
 (function () {
   // Initialize Firebase
   var config = {
-    // apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
-    // authDomain: "amole-441d3.firebaseapp.com",
-    // databaseURL: "https://amole-441d3.firebaseio.com",
-    // projectId: "amole-441d3",
-    // storageBucket: "amole-441d3.appspot.com",
-    // messagingSenderId: "813935639249"
-    apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
-    authDomain: "amole-87b44.firebaseapp.com",
-    databaseURL: "https://amole-87b44.firebaseio.com",
-    projectId: "amole-87b44",
-    storageBucket: "amole-87b44.appspot.com",
-    messagingSenderId: "692612234466"
+    apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
+    authDomain: "amole-441d3.firebaseapp.com",
+    databaseURL: "https://amole-441d3.firebaseio.com",
+    projectId: "amole-441d3",
+    storageBucket: "amole-441d3.appspot.com",
+    messagingSenderId: "813935639249"
+
+
+    // apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
+    // authDomain: "amole-87b44.firebaseapp.com",
+    // databaseURL: "https://amole-87b44.firebaseio.com",
+    // projectId: "amole-87b44",
+    // storageBucket: "amole-87b44.appspot.com",
+    // messagingSenderId: "692612234466"
   };
   firebase.initializeApp(config);
 
@@ -131,7 +133,9 @@ function searchPlace(){
     place.on("child_added", function(data){
 
       var placeValue = data.val();
-      $("#tbAddPlace").append('<tr class="tr-shadow"> <td><div align="center"><img src="'+placeValue.urlImage1+'" style="border-radius: 60px; width: 120px; height:120px"/><br>'+placeValue.name+'</div></td><td class="text-justify">'+placeValue.descriptionPlace+'</td><td style="width:20px">'+placeValue.rating+'</td><td>'+placeValue.typePin+'</td><td><div class="table-data-feature"><button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()"><i class="zmdi zmdi-edit"></i></button><button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace()"><i class="zmdi zmdi-delete"></i></button><button class="item" data-toggle="tooltip" data-placement="top" title="Mas"><i class="zmdi zmdi-more"></i></button></div></td></tr></tr><tr class="spacer"></tr>');   
+      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
+
+      $("#tbAddPlace").append(addTable);
     });
 
   }
@@ -143,12 +147,43 @@ function searchPlace(){
 
       var placeValue = data.val();
 
-      $("#tbAddPlace").append('<tr class="tr-shadow"> <td><div align="center"><img src="'+placeValue.urlImage1+'" style="border-radius: 60px; width: 120px; height:120px"/><br>'+placeValue.name+'</div></td><td class="text-justify">'+placeValue.descriptionPlace+'</td><td style="width:20px">'+placeValue.rating+'</td><td>'+placeValue.typePin+'</td><td><div class="table-data-feature"><button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()"><i class="zmdi zmdi-edit"></i></button><button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace()"><i class="zmdi zmdi-delete"></i></button><button class="item" data-toggle="tooltip" data-placement="top" title="Mas"><i class="zmdi zmdi-more"></i></button></div></td></tr></tr><tr class="spacer"></tr>');   
+      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
+
+      $("#tbAddPlace").append(addTable);
     });
     
   }
-  
+}
 
+function fillTable(urlImage1, name, descriptionPlace, rating, typepin){ 
+  var table = '<tr class="tr-shadow">'+ 
+      '<td>'+
+        '<div align="center">'+
+          '<img src="'+urlImage1+'" style="border-radius: 60px; width: 120px; height:120px"/>'+
+          '<br>'+name+
+        '</div>'+
+      '</td>'+
+      '<td class="text-justify">'+descriptionPlace+'</td>'+
+      '<td style="width:20px">'+rating+'</td>'+
+      '<td>'+typepin+'</td>'+
+      '<td>'+
+          '<div class="table-data-feature">'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()">'+
+              '<i class="zmdi zmdi-edit"></i>'+
+            '</button>'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace()">'+
+              '<i class="zmdi zmdi-delete"></i>'+
+            '</button>'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Mas">'+
+              '<i class="zmdi zmdi-more"></i>'+
+            '</button>'+
+          '</div>'+
+      '</td>'+
+  '</tr>'+
+  '<tr class="spacer">'+
+  '</tr>';
+
+  return table
 }
 
 function getId(id) {
