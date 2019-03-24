@@ -2,20 +2,20 @@
 (function () {
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
-    authDomain: "amole-441d3.firebaseapp.com",
-    databaseURL: "https://amole-441d3.firebaseio.com",
-    projectId: "amole-441d3",
-    storageBucket: "amole-441d3.appspot.com",
-    messagingSenderId: "813935639249"
+    // apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
+    // authDomain: "amole-441d3.firebaseapp.com",
+    // databaseURL: "https://amole-441d3.firebaseio.com",
+    // projectId: "amole-441d3",
+    // storageBucket: "amole-441d3.appspot.com",
+    // messagingSenderId: "813935639249"
 
 
-    // apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
-    // authDomain: "amole-87b44.firebaseapp.com",
-    // databaseURL: "https://amole-87b44.firebaseio.com",
-    // projectId: "amole-87b44",
-    // storageBucket: "amole-87b44.appspot.com",
-    // messagingSenderId: "692612234466"
+    apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
+    authDomain: "amole-87b44.firebaseapp.com",
+    databaseURL: "https://amole-87b44.firebaseio.com",
+    projectId: "amole-87b44",
+    storageBucket: "amole-87b44.appspot.com",
+    messagingSenderId: "692612234466"
   };
   firebase.initializeApp(config);
 
@@ -70,6 +70,8 @@ function desabledSelect(){
   }else{
     $('#countryHidden').hide();
     $('#stateHidden').hide();
+    $('#municipalityHidden').hide();
+    $('#colonyHidden').hide();
 
     searchPlace();
    
@@ -94,8 +96,6 @@ function searchCountry(){
 
 function searchStates(){
 
-  $("#tbAddPlace").empty();
-
   $("#stateSelected").empty();
 
   $("#stateSelected").append("<option disabled='true' selected='true'>Select state</option>")
@@ -105,14 +105,63 @@ function searchStates(){
 
   // Fill select States for Country selected in option with Firebase
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected);
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States");
   urlRefState.once("value", function(snapshot) {
-    snapshot.forEach(function(child) {
+    snapshot.forEach(function(child) {      
       $("#stateSelected").append('<option value="'+child.key+'">'+child.key+'</option>');
     });
   });
-  $("#searchGlobal").show();
   $('#stateHidden').show();
+}
+
+
+function searchMunicipality(){
+
+  $("#tbAddPlace").empty();
+
+  $("#municipalitySelected").empty();
+
+  $("#municipalitySelected").append("<option disabled='true' selected='true'>Select municipalityy</option>")
+
+
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+
+  // Fill select States for Country selected in option with Firebase
+  var rootRefState = firebase.database().ref();
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities");
+  urlRefState.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      $("#municipalitySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+    });
+  });
+  $('#municipalityHidden').show();
+}
+
+function searchColony(){
+
+  $("#tbAddPlace").empty();
+
+  $("#colonySelected").empty();
+
+  $("#colonySelected").append("<option disabled='true' selected='true'>Select colony</option>")
+
+
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+  var municipalitySelected = getId("municipalitySelected");
+
+  // Fill select States for Country selected in option with Firebase
+  var rootRefState = firebase.database().ref();
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies");
+
+  urlRefState.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      $("#colonySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+    });
+  });
+  $('#colonyHidden').show();
 }
 
 
@@ -120,15 +169,17 @@ function searchPlace(){
 
   $("#tbAddPlace").empty();
 
-  var country = getId("countrySelected");
-
-  var state = getId("stateSelected");
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+  var municipalitySelected = getId("municipalitySelected");
+  var colonySelected = getId("colonySelected");
 
   var categorySearchSelected = getId("categorySearch");
 
   if (categorySearchSelected == "Rojos"){
 
-    var place = firebase.database().ref('places-items/pines/Rojos/'+country+'/'+state+'/');
+    var place = firebase.database().ref("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places");
 
     place.on("child_added", function(data){
 
