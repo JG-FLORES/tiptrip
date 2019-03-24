@@ -5,8 +5,6 @@ $(document).ready(function(){
   $("#outputImg3").hide();
 
   // $("#newCountry").hide();
-  $("#addNewC-S").hide();
-
   typePinSelected();
 
   // searchStates();
@@ -23,27 +21,23 @@ var aceptAddC_S = false;
 
 // Initialize Firebase
 var config = {
-apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
-authDomain: "amole-441d3.firebaseapp.com",
-databaseURL: "https://amole-441d3.firebaseio.com",
-projectId: "amole-441d3",
-storageBucket: "amole-441d3.appspot.com",
-messagingSenderId: "813935639249"
+// apiKey: "AIzaSyC28dAntLwKMR4q3BlLH6OlLocitABMdCI",
+// authDomain: "amole-441d3.firebaseapp.com",
+// databaseURL: "https://amole-441d3.firebaseio.com",
+// projectId: "amole-441d3",
+// storageBucket: "amole-441d3.appspot.com",
+// messagingSenderId: "813935639249"
 
 // Me Account in Firebase
-// apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
-// authDomain: "amole-87b44.firebaseapp.com",
-// databaseURL: "https://amole-87b44.firebaseio.com",
-// projectId: "amole-87b44",
-// storageBucket: "amole-87b44.appspot.com",
-// messagingSenderId: "692612234466"
+apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
+authDomain: "amole-87b44.firebaseapp.com",
+databaseURL: "https://amole-87b44.firebaseio.com",
+projectId: "amole-87b44",
+storageBucket: "amole-87b44.appspot.com",
+messagingSenderId: "692612234466"
 };
 firebase.initializeApp(config);
 
-
-function show(){
-  alert($('input:radio[name=typePinOptions]:checked').val())
-}
 
 $("#frmPlace").submit(function(e){
 
@@ -56,8 +50,12 @@ $("#frmPlace").submit(function(e){
   // var name = getId("name");
   var rating = getId("rating");
   var typepin = $('input:radio[name=typePinOptions]:checked').val();
+
   var country = getId("country");
   var state = getId("state");
+  var municipality = getId("municipality");
+  var colony = getId("colony");
+
   var urlimage1 = UrlImage1;
   var urlimage2 = UrlImage2;
   var urlimage3 = UrlImage3;
@@ -69,13 +67,13 @@ $("#frmPlace").submit(function(e){
   var tip4 = getId("tip4");
   var tip5 = getId("tip5");
 
-  insertNewPlace(country, state, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5);
+  insertNewPlace(country, state, municipality, colony, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5);
  
 
 });
 
 
-function insertNewPlace(country, state, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5) {
+function insertNewPlace(country, state, municipality, colony, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5) {
 
   var arrayItems = [];
   // item to arrayItems
@@ -97,48 +95,25 @@ function insertNewPlace(country, state, title, description, latitude, longitude,
 
   if (typepin == "typeFour"){
 
-    if (aceptAddC_S == false) 
-    {
-        firebase.database().ref('places-items/pines/Rojos/'+country+'/'+state+'/'+title).set({
-          descriptionPlace: description,
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude), 
-          name: title,
-          rating: parseFloat(rating),
-          tipsArray: arrayItems,
-          typePin: typepin,
-          urlImage1: urlimage1,
-          urlImage2: urlimage2,
-          urlImage3: urlimage3
-        }, function(error) {
-          if (error) {
-            alert("Write Failed Place...");
-          } else {
-            $("#modalSavedsuccessfully").modal('show');        
-          }
-        });
-    }else{
-        firebase.database().ref('places-items/pines/Rojos/'+newCountry+'/'+newState+'/'+title).set({
-          descriptionPlace: description,
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude), 
-          name: title,
-          rating: parseFloat(rating),
-          tipsArray: arrayItems,
-          typePin: typepin,
-          urlImage1: urlimage1,
-          urlImage2: urlimage2,
-          urlImage3: urlimage3      
-        }, function(error) {
-          if (error) {
-            alert("Write Failed Place...");
-          } else {
-            $("#modalSavedsuccessfully").modal('show');        
-          }
-        });
-
-        aceptAddC_S = false;
-      } //end else
+    firebase.database().ref("places-items/pines/Rojos/"+country+"/States/"+state+"/Municipalities/"+
+        municipality+"/Colonies/"+colony+"/Places/"+title).set({
+        descriptionPlace: description,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude), 
+        name: title,
+        rating: parseFloat(rating),
+        tipsArray: arrayItems,
+        typePin: typepin,
+        urlImage1: urlimage1,
+        urlImage2: urlimage2,
+        urlImage3: urlimage3
+      }, function(error) {
+        if (error) {
+          alert("Write Failed Place...");
+        } else {
+          $("#modalSavedsuccessfully").modal('show');        
+        }
+    });
     
   }else{
     firebase.database().ref('places-items/pines/123/'+ title).set({
@@ -173,14 +148,15 @@ function typePinSelected(){
   if (typepin != "typeFour"){
     $("#country").prop('disabled', true);
     $("#state").prop('disabled', true);
-  }else{
+    $("#municipality").prop('disabled', true);
+    $("#colony").prop('disabled', true);
+  }else{    
+    $("#country").removeAttr("disabled");
+    $("#state").removeAttr("disabled");
+    $("#municipality").removeAttr("disabled");
+    $("#colony").removeAttr("disabled");
 
-    $("#modalAddNewCountry").modal("show");
-    $("#aceptAdd").show();
-    $("#frmAddNewC-S").hide();
-    // $("#country").removeAttr("disabled");
-    // $("#state").removeAttr("disabled");
-    // searchCountry();
+    searchCountry();
   }
 }
 
@@ -341,18 +317,58 @@ function searchCountry(){
 
 function searchStates(){
 
-  $("#state").empty();
-  $("#state").append("<option disabled='true' selected='true'>Select state</option>")
-  var countrySelected = getId("country");
+    $("#state").empty();
+    $("#state").append("<option disabled='true' selected='true'>Select state</option>")
+    var countrySelected = getId("country");
 
-  // Fill select States for Country selected in option with Firebase
+    // Fill select States for Country selected in option with Firebase
+    var rootRefState = firebase.database().ref();
+    var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States");
+    urlRefState.once("value", function(snapshot) {
+      snapshot.forEach(function(child) {
+        $("#state").append('<option value="'+child.key+'">'+child.key+'</option>');
+      });
+    });
+}
+
+function searchMunicipality(){
+
+  $("#municipality").empty();
+  $("#municipality").append("<option disabled='true' selected='true'>Select municipality</option>")
+  var countrySelected = getId("country");
+  var stateSelected = getId("state");
+
+
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected);
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities");
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
-      $("#state").append('<option value="'+child.key+'">'+child.key+'</option>');
+      // console.log("for key"+child.key);
+      $("#municipality").append('<option value="'+child.key+'">'+child.key+'</option>');
     });
   });
+}
+
+function searchColonies(){
+
+  $("#colony").empty();
+  $("#colony").append("<option disabled='true' selected='true'>Select Colony</option>")
+  var countrySelected = getId("country");
+  var stateSelected = getId("state");
+  var municipalitySelected = getId("municipality");
+
+
+  var rootRefState = firebase.database().ref();
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities/"+
+    municipalitySelected+"/Colonies");
+
+  urlRefState.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      // console.log("for key"+child.key);
+      $("#colony").append('<option value="'+child.key+'">'+child.key+'</option>');
+    });
+  });
+
 }
 
 function aceptAddNewCountry(){
@@ -363,23 +379,3 @@ function aceptAddNewCountry(){
 
   aceptAddC_S = true;
 }
-
-function dissmissAddNewCountry(){
-  $("#country").removeAttr("disabled");
-  $("#state").removeAttr("disabled");
-  searchCountry();
-  aceptAddC_S = false;
-  $("#frmAddNewC-S").hide();
-}
-
-$("#frmAddNewC-S").submit(function(e){
-
-  e.preventDefault();
-
-  newCountry = getId("newCountry");
-
-  newState = getId("newState");
-
-  $("#modalAddNewCountry").modal("hide");
-
-});
