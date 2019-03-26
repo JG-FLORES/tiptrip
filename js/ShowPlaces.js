@@ -28,6 +28,10 @@
 
 }());
 
+
+var idDeletePlace = "";
+var typePinDelete = "";
+
 $(document).ready(function(){
   
   $("#searchGlobal").hide();
@@ -178,35 +182,39 @@ function searchPlace(){
 
   if (categorySearchSelected == "Rojos"){
 
-    var place = firebase.database().ref("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    var rootRef = firebase.database().ref();
+    var urlRef = rootRef.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
     stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places");
+    urlRef.once("value", function(snapshot) {      
+      snapshot.forEach(function(child) {
+        
+        var type = "pinRed"
+        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key)
 
-    place.on("child_added", function(data){
-
-      var placeValue = data.val();
-      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
-
-      $("#tbAddPlace").append(addTable);
+        $("#tbAddPlace").append(addTable);
+      });
     });
 
   }
   if(categorySearchSelected == "123"){
 
-    var place = firebase.database().ref('places-items/pines/123/');
+    var rootRef = firebase.database().ref();
+    var urlRef = rootRef.child("places-items/pines/123");
+    urlRef.once("value", function(snapshot) {      
+      snapshot.forEach(function(child) {
 
-    place.on("child_added", function(data){
+        var type = "pin123"
+        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key)
 
-      var placeValue = data.val();
-
-      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
-
-      $("#tbAddPlace").append(addTable);
+        $("#tbAddPlace").append(addTable);
+      });
     });
-    
   }
 }
 
-function fillTable(urlImage1, name, descriptionPlace, rating, typepin){ 
+function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace){ 
+
+  // console.log(typepindelete)
   var table = '<tr class="tr-shadow">'+ 
       '<td>'+
         '<div align="center">'+
@@ -222,7 +230,7 @@ function fillTable(urlImage1, name, descriptionPlace, rating, typepin){
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()">'+
               '<i class="zmdi zmdi-edit"></i>'+
             '</button>'+
-            '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace()">'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace('+"'"+idPlace+"'"+')">'+
               '<i class="zmdi zmdi-delete"></i>'+
             '</button>'+
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Mas">'+
@@ -254,10 +262,51 @@ function typePinSelected(){
   }
 }
 
-function deletePlace(){
+function deletePlace(idPlace){
+  idDeletePlace = idPlace;
+  // typePinDelete = typedelete;
+  // console.log(typedelete)
+  // alert(typedelete)
   $("#modalDeletePlace").modal("show");
+
 }
 
+function aceptDeletePlace(){
+
+
+  // if (typePinDelete == "pinRed") {
+
+  //   var countrySelected = getId("countrySelected");
+  //   var stateSelected = getId("stateSelected");
+  //   var municipalitySelected = getId("municipalitySelected");
+  //   var colonySelected = getId("colonySelected");
+
+  //   var adaRef = firebase.database().ref("places-items/pines/Rojos/"+countrySelected+"/States/"+
+  //   stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places/"+idDeletePlace);
+  //   adaRef.remove()
+  //     .then(function() {
+  //       console.log("Remove succeeded.");
+
+  //       idDeletePlace = "";
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Remove failed: " + error.message)
+  //   });
+  // }
+
+  // if (typePinDelete == "pin123") {
+    var adaRef = firebase.database().ref('places-items/pines/123/'+idDeletePlace);
+    adaRef.remove()
+      .then(function() {
+        console.log("Remove succeeded.");
+
+        idDeletePlace = "";
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+    });
+  // } 
+}
 
 function updatePlace(){
   $("#modalUpdatePlace").modal("show");
