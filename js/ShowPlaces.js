@@ -22,7 +22,9 @@
 
   // Data RealTime
   var dbRef = firebase.database().ref().child('places-items'); 
-  dbRef.on('value', snap => searchPlace());
+  dbRef.on('value', snap => 
+    searchPlace()
+  );
   // End Data RealTime
 
 
@@ -66,11 +68,10 @@ function desabledSelect(){
 
   if (pinSelected == "Rojos") {
     $('#countryHidden').show();
+
    
     searchCountry();
-
-    searchPlace();
-
+    // searchPlace();
   }else{
     $('#countryHidden').hide();
     $('#stateHidden').hide();
@@ -84,6 +85,8 @@ function desabledSelect(){
 
 function searchCountry(){
 
+  $("#tbAddPlace").empty();
+
   $('#countrySelected').empty();
 
   $("#countrySelected").append("<option disabled='true' selected='true'>Select country</option>")
@@ -93,12 +96,20 @@ function searchCountry(){
     var urlRefCountry = rootRefCountry.child("places-items/pines/Rojos");
     urlRefCountry.once("value", function(snapshot) {
       snapshot.forEach(function(child) {
+
         $("#countrySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+
+        var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+
+        $("#tbAddPlace").append(addTable);
+
       });
     });
 }
 
 function searchStates(){
+
+  $("#tbAddPlace").empty();
 
   $("#stateSelected").empty();
 
@@ -112,13 +123,19 @@ function searchStates(){
   var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States");
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {      
+
       $("#stateSelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+
+      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+
+      $("#tbAddPlace").append(addTable);
+
     });
   });
   $('#stateHidden').show();
+  $('#municipalityHidden').hide();
+  $('#colonyHidden').hide();
 }
-
-
 function searchMunicipality(){
 
   $("#tbAddPlace").empty();
@@ -136,12 +153,18 @@ function searchMunicipality(){
   var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities");
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
+
       $("#municipalitySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+
+      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+
+      $("#tbAddPlace").append(addTable);
+
     });
   });
   $('#municipalityHidden').show();
+  $('#colonyHidden').hide();
 }
-
 function searchColony(){
 
   $("#tbAddPlace").empty();
@@ -162,13 +185,17 @@ function searchColony(){
 
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
+
       $("#colonySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+
+      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+
+      $("#tbAddPlace").append(addTable);
+
     });
   });
   $('#colonyHidden').show();
 }
-
-
 function searchPlace(){
 
   $("#tbAddPlace").empty();
@@ -187,6 +214,8 @@ function searchPlace(){
     stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places");
     urlRef.once("value", function(snapshot) {      
       snapshot.forEach(function(child) {
+
+        console.log(child.val())
         
         var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
@@ -209,10 +238,8 @@ function searchPlace(){
     });
   }
 }
-
 function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace, type){ 
 
-  // console.log(typepindelete)
   var table = '<tr class="tr-shadow">'+ 
       '<td>'+
         '<div align="center">'+
@@ -240,6 +267,8 @@ function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace, t
   '<tr class="spacer">'+
   '</tr>';
 
+  // console.log(table)
+  
   return table
 }
 
