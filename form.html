@@ -70,6 +70,10 @@
                         <li>
                             <a href="form.html">
                                 <i class="fa fa-plus-circle"></i>Agregar Place</a>
+                        </li> 
+                        <li>
+                            <a href="item.html">
+                                <i class="fa fa-plus-circle"></i>Agregar Item</a>
                         </li>                        
                         <li>
                             <a href="map.html">
@@ -102,7 +106,11 @@
                         <li class="active">
                             <a href="form.html">
                                 <i class="fa fa-plus-circle"></i>Agregar Place</a>
-                        </li>                      
+                        </li>  
+                        <li>
+                            <a href="item.html">
+                                <i class="fa fa-plus-circle"></i>Agregar Item</a>
+                        </li>                     
                         <li>
                             <a href="map.html">
                                 <i class="fas fa-map-marker-alt"></i>Maps</a>
@@ -371,13 +379,28 @@
                                                 <option value="3">Rating 4</option>
                                             </select>                                                    
                                         </div>   
-                                        <div class="form-group" style="padding-bottom: 38px">   
+                                        <div class="form-group">   
                                             
-                                            <select name="country" id="country" class="form-control" required="true" style="width: 48%; float: left;" required="true" onchange="searchStates()">                                                
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <select name="country" id="country" class="form-control" required="true" required="true" onchange="searchStates()"></select>
+                                                </div>
+
+                                                <div class="col-lg-3">                                                    
+                                                    <select name="state" id="state" class="form-control" required="true" required="true" onchange="searchMunicipality()"></select>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <select name="municipality" id="municipality" class="form-control" required="true" required="true" onchange="searchColonies()"></select>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <select name="colony" id="colony" class="form-control" required="true" required="true"></select>
+                                                </div>
+                                            </div>
+                                           <!--  <select name="country" id="country" class="form-control" required="true" style="width: 48%; float: left;" required="true" onchange="searchStates()">                                                
                                             </select>
                                             <select name="state" id="state" class="form-control" required="true" style="width: 48%; float: right;" required="true">
                                                                        
-                                            </select>                                                                                           
+                                            </select> -->                                                                                           
                                         </div>   
                                         <div class="form-group">
                                             <input class="au-input au-input--full" type="text" id="title" placeholder="Nombre del place" required="true">

@@ -9,7 +9,7 @@
     storageBucket: "amole-441d3.appspot.com",
     messagingSenderId: "813935639249"
 
-
+    // Me Account in Firebase
     // apiKey: "AIzaSyB_cPHyAYC4j66GcU4F7cU8gTYpeNFmwEQ",
     // authDomain: "amole-87b44.firebaseapp.com",
     // databaseURL: "https://amole-87b44.firebaseio.com",
@@ -27,6 +27,10 @@
 
 
 }());
+
+
+var idDeletePlace = "";
+var typePinDelete = "";
 
 $(document).ready(function(){
   
@@ -70,6 +74,8 @@ function desabledSelect(){
   }else{
     $('#countryHidden').hide();
     $('#stateHidden').hide();
+    $('#municipalityHidden').hide();
+    $('#colonyHidden').hide();
 
     searchPlace();
    
@@ -94,8 +100,6 @@ function searchCountry(){
 
 function searchStates(){
 
-  $("#tbAddPlace").empty();
-
   $("#stateSelected").empty();
 
   $("#stateSelected").append("<option disabled='true' selected='true'>Select state</option>")
@@ -105,14 +109,63 @@ function searchStates(){
 
   // Fill select States for Country selected in option with Firebase
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected);
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States");
   urlRefState.once("value", function(snapshot) {
-    snapshot.forEach(function(child) {
+    snapshot.forEach(function(child) {      
       $("#stateSelected").append('<option value="'+child.key+'">'+child.key+'</option>');
     });
   });
-  $("#searchGlobal").show();
   $('#stateHidden').show();
+}
+
+
+function searchMunicipality(){
+
+  $("#tbAddPlace").empty();
+
+  $("#municipalitySelected").empty();
+
+  $("#municipalitySelected").append("<option disabled='true' selected='true'>Select municipalityy</option>")
+
+
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+
+  // Fill select States for Country selected in option with Firebase
+  var rootRefState = firebase.database().ref();
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities");
+  urlRefState.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      $("#municipalitySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+    });
+  });
+  $('#municipalityHidden').show();
+}
+
+function searchColony(){
+
+  $("#tbAddPlace").empty();
+
+  $("#colonySelected").empty();
+
+  $("#colonySelected").append("<option disabled='true' selected='true'>Select colony</option>")
+
+
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+  var municipalitySelected = getId("municipalitySelected");
+
+  // Fill select States for Country selected in option with Firebase
+  var rootRefState = firebase.database().ref();
+  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies");
+
+  urlRefState.once("value", function(snapshot) {
+    snapshot.forEach(function(child) {
+      $("#colonySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
+    });
+  });
+  $('#colonyHidden').show();
 }
 
 
@@ -120,42 +173,46 @@ function searchPlace(){
 
   $("#tbAddPlace").empty();
 
-  var country = getId("countrySelected");
-
-  var state = getId("stateSelected");
+  var countrySelected = getId("countrySelected");
+  var stateSelected = getId("stateSelected");
+  var municipalitySelected = getId("municipalitySelected");
+  var colonySelected = getId("colonySelected");
 
   var categorySearchSelected = getId("categorySearch");
 
   if (categorySearchSelected == "Rojos"){
 
-    var place = firebase.database().ref('places-items/pines/Rojos/'+country+'/'+state+'/');
+    var rootRef = firebase.database().ref();
+    var urlRef = rootRef.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places");
+    urlRef.once("value", function(snapshot) {      
+      snapshot.forEach(function(child) {
+        
+        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
-    place.on("child_added", function(data){
-
-      var placeValue = data.val();
-      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
-
-      $("#tbAddPlace").append(addTable);
+        $("#tbAddPlace").append(addTable);
+      });
     });
 
   }
   if(categorySearchSelected == "123"){
 
-    var place = firebase.database().ref('places-items/pines/123/');
+    var rootRef = firebase.database().ref();
+    var urlRef = rootRef.child("places-items/pines/123");
+    urlRef.once("value", function(snapshot) {      
+      snapshot.forEach(function(child) {
 
-    place.on("child_added", function(data){
+        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pin123")
 
-      var placeValue = data.val();
-
-      var addTable = fillTable(placeValue.urlImage1, placeValue.name, placeValue.descriptionPlace, placeValue.rating, placeValue.typePin)
-
-      $("#tbAddPlace").append(addTable);
+        $("#tbAddPlace").append(addTable);
+      });
     });
-    
   }
 }
 
-function fillTable(urlImage1, name, descriptionPlace, rating, typepin){ 
+function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace, type){ 
+
+  // console.log(typepindelete)
   var table = '<tr class="tr-shadow">'+ 
       '<td>'+
         '<div align="center">'+
@@ -171,7 +228,7 @@ function fillTable(urlImage1, name, descriptionPlace, rating, typepin){
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()">'+
               '<i class="zmdi zmdi-edit"></i>'+
             '</button>'+
-            '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace()">'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace('+"'"+idPlace+"'"+","+"'"+type+"'"+')">'+
               '<i class="zmdi zmdi-delete"></i>'+
             '</button>'+
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Mas">'+
@@ -203,10 +260,50 @@ function typePinSelected(){
   }
 }
 
-function deletePlace(){
+function deletePlace(idPlace, typedelete){
+  idDeletePlace = idPlace;
+  typePinDelete = typedelete;
+  // console.log(typedelete)
   $("#modalDeletePlace").modal("show");
+
 }
 
+function aceptDeletePlace(){
+
+
+  if (typePinDelete == "pinRed") {
+
+    var countrySelected = getId("countrySelected");
+    var stateSelected = getId("stateSelected");
+    var municipalitySelected = getId("municipalitySelected");
+    var colonySelected = getId("colonySelected");
+
+    var adaRef = firebase.database().ref("places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places/"+idDeletePlace);
+    adaRef.remove()
+      .then(function() {
+        console.log("Remove succeeded.");
+
+        idDeletePlace = "";
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+    });
+  }
+
+  if (typePinDelete == "pin123") {
+    var adaRef = firebase.database().ref('places-items/pines/123/'+idDeletePlace);
+    adaRef.remove()
+      .then(function() {
+        console.log("Remove succeeded.");
+
+        idDeletePlace = "";
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+    });
+  } 
+}
 
 function updatePlace(){
   $("#modalUpdatePlace").modal("show");
