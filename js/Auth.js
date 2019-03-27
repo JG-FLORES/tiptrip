@@ -23,12 +23,12 @@ firebase.initializeApp(config);
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
-    console.log(user);
+    // console.log(user);
     window.location.href = "index.html"
     // ...
   } else {
     // User is signed out.
-    console.log("User is signed out.");
+    // console.log("User is signed out.");
     // window.location.href = "login.html"
   }
 });
@@ -37,7 +37,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 $("#frmLogin").submit(function(e){
 
 	e.preventDefault();
-
+	$("#lblEmail").addClass('invisible');
+	$("#lblPass").addClass('invisible');
 
 	$("#password").removeClass('is-invalid form-control');
 	$("#email").removeClass('is-invalid form-control');
@@ -50,14 +51,17 @@ $("#frmLogin").submit(function(e){
 	var errorMessage = error.message;
 	// [START_EXCLUDE]
 	if (errorCode === 'auth/wrong-password') {
-	  // alert('Wrong password.');
 	  // is-invalid form-control
 	  $("#password").addClass('is-invalid form-control');
+	  $("#lblPass").removeClass('invisible');
+	  // $("#lblPass").append("Wrong password.");
 	} else {
 	  $("#email").addClass('is-invalid form-control');
-	  alert(errorMessage);
+	  $("#lblEmail").removeClass('invisible');
+	  // $("#lblEmail").append(errorMessage);
+	  // alert(errorMessage);
 	}
-	console.log(error);
+	// console.log(error);
 	// document.getElementById('quickstart-sign-in').disabled = false;
 	// [END_EXCLUDE]
 	});

@@ -25,7 +25,6 @@ var user = firebase.auth().currentUser;
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
-    console.log(user);
     $("#lblEmail").append(user.email);
 	  $("#lblName").append(user.displayName);
 	  var output = document.getElementById('imgProfile');
