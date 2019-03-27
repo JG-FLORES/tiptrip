@@ -44,6 +44,10 @@
     }
   });
 
+  $("#outputImg1").hide();
+  $("#outputImg2").hide();
+  $("#outputImg3").hide();
+
 }());
 
 
@@ -119,14 +123,16 @@ function searchCountry(){
   $("#countrySelected").append("<option disabled='true' selected='true'>Select country</option>")
 
   // Fill select Countries in option with Firebase
+  var path = "places-items/pines/Rojos";
+
     var rootRefCountry = firebase.database().ref();
-    var urlRefCountry = rootRefCountry.child("places-items/pines/Rojos");
+    var urlRefCountry = rootRefCountry.child(path);
     urlRefCountry.once("value", function(snapshot) {
       snapshot.forEach(function(child) {
 
         $("#countrySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
 
-        var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+        var addTable = fillTable(path,child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
         $("#tbAddPlace").append(addTable);
 
@@ -146,14 +152,16 @@ function searchStates(){
   var countrySelected = getId("countrySelected");
 
   // Fill select States for Country selected in option with Firebase
+  var path = "places-items/pines/Rojos/"+countrySelected+"/States";
+
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States");
+  var urlRefState = rootRefState.child(path);
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {      
 
       $("#stateSelected").append('<option value="'+child.key+'">'+child.key+'</option>');
 
-      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+      var addTable = fillTable(path,child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
       $("#tbAddPlace").append(addTable);
 
@@ -176,14 +184,15 @@ function searchMunicipality(){
   var stateSelected = getId("stateSelected");
 
   // Fill select States for Country selected in option with Firebase
+  var path = "places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities"
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+stateSelected+"/Municipalities");
+  var urlRefState = rootRefState.child(path);
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
 
       $("#municipalitySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
 
-      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+      var addTable = fillTable(path,child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
       $("#tbAddPlace").append(addTable);
 
@@ -206,16 +215,18 @@ function searchColony(){
   var municipalitySelected = getId("municipalitySelected");
 
   // Fill select States for Country selected in option with Firebase
+  var path = "places-items/pines/Rojos/"+countrySelected+"/States/"+
+  stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies"
+
   var rootRefState = firebase.database().ref();
-  var urlRefState = rootRefState.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
-    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies");
+  var urlRefState = rootRefState.child(path);
 
   urlRefState.once("value", function(snapshot) {
     snapshot.forEach(function(child) {
 
       $("#colonySelected").append('<option value="'+child.key+'">'+child.key+'</option>');
 
-      var addTable = fillTable(child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+      var addTable = fillTable(path,child.val().urlImage1, child.key, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
       $("#tbAddPlace").append(addTable);
 
@@ -236,15 +247,15 @@ function searchPlace(){
 
   if (categorySearchSelected == "Rojos"){
 
+    var path = "places-items/pines/Rojos/"+countrySelected+"/States/"+
+    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places";
+
     var rootRef = firebase.database().ref();
-    var urlRef = rootRef.child("places-items/pines/Rojos/"+countrySelected+"/States/"+
-    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places");
+    var urlRef = rootRef.child(path);
     urlRef.once("value", function(snapshot) {      
       snapshot.forEach(function(child) {
-
-        console.log(child.val())
         
-        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
+        var addTable = fillTable(path,child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pinRed")
 
         $("#tbAddPlace").append(addTable);
       });
@@ -253,20 +264,25 @@ function searchPlace(){
   }
   if(categorySearchSelected == "123"){
 
+    var path = "places-items/pines/123";
+
     var rootRef = firebase.database().ref();
-    var urlRef = rootRef.child("places-items/pines/123");
+    var urlRef = rootRef.child(path);
     urlRef.once("value", function(snapshot) {      
       snapshot.forEach(function(child) {
 
-        var addTable = fillTable(child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pin123")
+        var addTable = fillTable(path,child.val().urlImage1, child.val().name, child.val().descriptionPlace, child.val().rating, child.val().typePin, child.key, "pin123")
 
         $("#tbAddPlace").append(addTable);
       });
     });
   }
 }
-function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace, type){ 
+function fillTable(path, urlImage1, name, descriptionPlace, rating, typepin,idPlace, type){ 
 
+  // var obj = JSON.parse(value["name"]);
+  
+  // console.log(obj)
   var table = '<tr class="tr-shadow">'+ 
       '<td>'+
         '<div align="center">'+
@@ -279,8 +295,8 @@ function fillTable(urlImage1, name, descriptionPlace, rating, typepin,idPlace, t
       '<td>'+typepin+'</td>'+
       '<td>'+
           '<div class="table-data-feature">'+
-            '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="updatePlace()">'+
-              '<i class="zmdi zmdi-edit"></i>'+
+            '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="getPlace('+"'"+path+"'"+","+"'"+idPlace+"'"+')">'+
+              '<i class="zmdi zmdi-edit" data-toggle="modal" data-target="#modalUpdatePlace"></i>'+
             '</button>'+
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="deletePlace('+"'"+idPlace+"'"+","+"'"+type+"'"+')">'+
               '<i class="zmdi zmdi-delete"></i>'+
@@ -325,8 +341,6 @@ function deletePlace(idPlace, typedelete){
 }
 
 function aceptDeletePlace(){
-
-
   if (typePinDelete == "pinRed") {
 
     var countrySelected = getId("countrySelected");
@@ -361,6 +375,49 @@ function aceptDeletePlace(){
   } 
 }
 
-function updatePlace(){
-  $("#modalUpdatePlace").modal("show");
+function getPlace(path, idPlace){
+
+  // console.log(path+"/"+idPlace)
+  var Items = [];
+  
+  var rootRef = firebase.database().ref();
+  var urlRef = rootRef.child(path+"/"+idPlace);
+  urlRef.once("value", function(snapshot) {      
+    snapshot.forEach(function(child) {
+      console.log(child.val());
+      Items.push(child.val());
+    });
+  });
+  var img1 = document.getElementById('outputImg1');
+  var img2 = document.getElementById('outputImg2');
+  var img3 = document.getElementById('outputImg3');
+  // $("#description").append(Items[0]);
+  document.getElementById("description").value = Items[0]
+  document.getElementById("latitude").value = Items[1]
+  document.getElementById("longitude").value = Items[2]
+  document.getElementById("title").value = Items[3]
+  $('#rating option[value="'+Items[4]+'"]').attr("selected", "selected");
+  document.getElementById("tip1").value = Items[5][0]
+
+  if(Items[5][1] != null){
+    document.getElementById("tip2").value = Items[5][1] 
+  }
+  if(Items[5][2] != null){
+    document.getElementById("tip3").value = Items[5][2]
+  }
+  if(Items[5][3] != null){
+    document.getElementById("tip4").value = Items[5][3]
+  }
+  if(Items[5][4] != null){
+    document.getElementById("tip5").value = Items[5][4]
+  }
+  $("input[name=typePinOptions][value="+Items[6]+"]").attr('checked', 'checked');
+  
+  // console.log(Items[3]);
+  img1.src = Items[7];
+  img2.src = Items[8];
+  img3.src = Items[9];
+  $("#outputImg1").show();
+  $("#outputImg2").show();
+  $("#outputImg3").show();
 }

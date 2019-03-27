@@ -399,8 +399,8 @@
 
 
         <!-- Modal Update Place -->
-        <div class="modal fade" id="modalUpdatePlace" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePlaceTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal fade" id="modalUpdatePlace" name="modalUpdatePlace" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePlaceTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">¡Actualizar Place!</h5>
@@ -409,39 +409,122 @@
                 </button>
               </div>     
               <div class="modal-body">
-                 <form  id="frmPlace" name="frmPlace" enctype="multipart/form-data">
-                    <div align="center">
-                        <img src="" id="outputImg" class="rounded" width="50%"> <br><br>
-                    </div>
-                    <div class="form-group" align="center">
-                        <label class="btn bg-white" style="border-radius: 7px; border-color: black">
-                            <b>Selecciona una imagen</b><input type="file" style="display: none;" accept="image/*" onchange="loadFile(event)" required="true">
-                        </label>                                          
-                    </div>
+                <form  id="frmPlace" name="frmPlace" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div align="center" id="imgPlace" style="width: 100%">
+                                <img src="" id="outputImg1" style="width: 150px; height: 150px; border-radius: 75px" alt="Imagen #1"> <br><br>
+                            </div>
+                            <div class="form-group" align="center">
+                                <label class="btn bg-white" style="border-radius: 7px; border-color: black">
+                                    <b>Imagen #1</b><input type="file" style="display: none;" accept="image/*" onchange="loadFile1(event)" required="true">
+                                </label> 
+                            <!-- PROGRESS BAR ANIMATION -->
+
+                               <div class="progress">
+                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" id="uploader1"></div>
+                                </div>                                       
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div align="center" id="imgPlace" style="width: 100%">
+                                <img src="" id="outputImg2" style="width: 150px; height: 150px; border-radius: 75px" alt="Imagen #2"> <br><br>
+                            </div>
+                            <div class="form-group" align="center">
+                                <label class="btn bg-white" style="border-radius: 7px; border-color: black">
+                                    <b>Imagen #2</b><input type="file" style="display: none;" accept="image/*" onchange="loadFile2(event)" required="true">
+                                </label>
+                            <!-- PROGRESS BAR ANIMATION  -->    
+                                <div class="progress">
+                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" id="uploader2"></div>
+                                </div>                                          
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div align="center" id="imgPlace" style="width: 100%">
+                                <img src="" id="outputImg3" style="width: 150px; height: 150px; border-radius: 75px" alt="Imagen #3"> <br><br>
+                            </div>
+                            <div class="form-group" align="center">
+                                <label class="btn bg-white" style="border-radius: 7px; border-color: black">
+                                    <b>Imagen #3</b><input type="file" style="display: none;" accept="image/*" onchange="loadFile3(event)" required="true">
+                                </label>                                                                
+                            <!-- PROGRESS BAR ANIMATION  -->    
+                                <div class="progress">
+                                   <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" id="uploader3"></div>
+                                </div>                                       
+                            </div>
+                        </div>
+                    </div>                                       
+                    <div class="form-group" onchange="typePinSelected()">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="typePinOptions" id="inlineRadio1" value="typeOne">
+                          <label class="form-check-label" for="inlineRadio1"><img src="images/typePines/typeOne.png" style="width: 30px"></label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="typePinOptions" id="inlineRadio2" value="typeTwo">
+                          <label class="form-check-label" for="inlineRadio2"><img src="images/typePines/typeTwo.png" style="width: 30px"></label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="typePinOptions" id="inlineRadio3" value="typeThree">
+                          <label class="form-check-label" for="inlineRadio3"><img src="images/typePines/typeThree.png" style="width: 30px"></label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="typePinOptions" id="inlineRadio3" value="typeFour">
+                          <label class="form-check-label" for="inlineRadio3"><img src="images/typePines/typeFour.png" style="width: 30px"></label>
+                        </div>
+                    </div>                                        
                     <div class="form-group">
-                        <input class="au-input au-input--full" type="text" id="title" placeholder="Titulo del place" required="true">
+                        <select name="select" id="rating" class="form-control" required="true">
+                            <option value="0">Rating 1</option>
+                            <option value="1">Rating 2</option>
+                            <option value="2">Rating 3</option>                                                   
+                            <option value="3">Rating 4</option>
+                        </select>                                                    
+                    </div>   
+                    <div class="form-group">   
+                        
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <select name="countryUpdate" id="countryUpdate" class="form-control" required="true" required="true" onchange="searchStates()"></select>
+                            </div>
+
+                            <div class="col-lg-3">                                                    
+                                <select name="stateUpdate" id="stateUpdate" class="form-control" required="true" required="true" onchange="searchMunicipality()"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select name="municipalityUpdate" id="municipalityUpdate" class="form-control" required="true" required="true" onchange="searchColonies()"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select name="colonyUpdate" id="colonyUpdate" class="form-control" required="true" required="true"></select>
+                            </div>
+                        </div>
+                       <!--  <select name="country" id="country" class="form-control" required="true" style="width: 48%; float: left;" required="true" onchange="searchStates()">                                                
+                        </select>
+                        <select name="state" id="state" class="form-control" required="true" style="width: 48%; float: right;" required="true">
+                                                   
+                        </select> -->                                                                                           
+                    </div>   
+                    <div class="form-group">
+                        <input class="au-input au-input--full" type="text" id="title" placeholder="Nombre del place" required="true">
                     </div>                                        
                     <div class="form-group">
                         <input class="au-input au-input--full" type="text" id="description" placeholder="Descripcion del place" required="true">
                     </div> 
-                    <div class="form-group">
-                        <input class="au-input au-input--full" type="text" id="latitude" placeholder="Latitud " required="true">
-                    </div>
-                    <div class="form-group">
-                        <input class="au-input au-input--full" type="text" id="longitude" placeholder="Longitud" required="true">
-                    </div>
-                    <div class="form-group">
-                        <input class="au-input au-input--full" type="text" id="name" placeholder="Nombre" required="true">
-                    </div> 
-                    <div class="form-group">
-                            <select name="select" id="rating" class="form-control" required="true">
-                                <option selected="true" disabled="true">Selecciona un Rating</option>
-                                <option value="0">1</option>
-                                <option value="1">2</option>
-                                <option value="2">3</option>                                                   
-                                <option value="3">4</option>
-                            </select>                                                    
-                    </div>   
+                    <div class="form-group" style="padding-bottom: 45px">
+
+                        <div style="float: left; width: 48%">
+                            <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#modalAddLatlong" style="width: 80%; height: 42px">Add in Maps</button>
+                        </div>
+
+                        <div style="float: left; width: 24%">
+                            
+                             <input class="au-input au-input--full" type="text" id="latitude" name="latitude" placeholder="Latitud " required="true">
+                        </div>
+                        <div style="float: right; width: 24%">
+                               <input class="au-input au-input--full" type="text" id="longitude" name="longitude" placeholder="Longitud" required="true" >
+                        </div>
+                    </div>                                                                               
+                    
                     <div class="form-group">
                         <input class="au-input au-input--full" type="text" id="tip1" placeholder="Tip 1" required="true">                                            
                     </div>
@@ -456,19 +539,11 @@
                     </div>
                     <div class="form-group">
                         <input class="au-input au-input--full" type="text" id="tip5" placeholder="Tip 5">                                            
-                    </div>                                                                                
-                    <div class="form-group">
-                            <select name="select" id="typePin" class="form-control" required="true">
-                                <option value="typeOne">typeOne</option>
-                                <option value="typeTwo">typeTwo</option>
-                                <option value="typeThree">typeThree</option>
-                                <option value="typeFour">typeFour</option>
-                            </select>                                                    
-                    </div>                                         
+                    </div>                                                                                                                                                     
                     <hr>                                             
-                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Actualizar</button>                                                                    
+                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Agregar</button>                                                                    
                 </form>
-                           
+                                   
               </div>                        
               <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
@@ -487,6 +562,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
 
     <script type="text/javascript" src="js/ShowPlaces.js"></script>
+    <!-- <script type="text/javascript" src="js/UpdatePlace.js"></script> -->
 
 
     <!-- Jquery JS-->
