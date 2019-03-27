@@ -27,6 +27,22 @@
   );
   // End Data RealTime
 
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      // console.log(user);
+      $("#lblEmail").append(user.email);
+      $("#lblName").append(user.displayName);
+      var output = document.getElementById('imgProfile');
+      output.src = user.photoURL;
+      // window.location.href = "index.html"
+      // ...
+    } else {
+      // User is signed out.
+      console.log("User is signed out.");
+      window.location.href = "login.html"
+    }
+  });
 
 }());
 
@@ -43,6 +59,17 @@ $(document).ready(function(){
   desabledSelect();
 
 });
+
+function logout(){
+  // alert("logout");
+  firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    window.location.href = "login.html";
+  }).catch(function(error) {
+    // An error happened.
+  });
+}
+
 
 function fillSelectPin(){
 

@@ -37,6 +37,34 @@ messagingSenderId: "813935639249"
 };
 firebase.initializeApp(config);
 
+
+// Session Auth
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    // console.log(user);
+    $("#lblEmail").append(user.email)
+    $("#lblName").append(user.displayName);
+    var output = document.getElementById('imgProfile');
+    output.src = user.photoURL;  
+  } else {
+    // User is signed out.
+    console.log("User is signed out.");
+    window.location.href = "login.html"
+  }
+});
+// End Session Auth
+
+function logout(){
+  // alert("logout");
+  firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    window.location.href = "login.html";
+  }).catch(function(error) {
+    // An error happened.
+  });
+}
+
 var loadFile1 = function(event) { 
   var storageRef = firebase.storage().ref('imagenes/' + event.target.files[0].name);
 
