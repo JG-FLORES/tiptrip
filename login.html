@@ -10,7 +10,9 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Login</title>
+    <title>Login - TipTrip</title>
+
+    <link href="images/icon/logo.ico" rel="shortcut icon" type="image/x-icon" />
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -43,41 +45,41 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="images/icon/logo.png" alt="CoolAdmin">
+                                <img src="images/icon/logo.ico" alt="CoolAdmin" width="150px">
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form id="frmLogin">
                                 <div class="form-group">
                                     <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                    <input class="au-input au-input--full" type="email" id="email" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                    <input class="au-input au-input--full" type="password" id="password" placeholder="Password">
                                 </div>
-                                <div class="login-checkbox">
+                               <!--  <div class="login-checkbox">
                                     <label>
                                         <input type="checkbox" name="remember">Remember Me
                                     </label>
                                     <label>
                                         <a href="#">Forgotten Password?</a>
                                     </label>
-                                </div>
+                                </div> -->
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-                                <div class="social-login-content">
+                                <!-- <div class="social-login-content">
                                     <div class="social-button">
                                         <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
                                         <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
                                     </div>
-                                </div>
+                                </div> -->
                             </form>
-                            <div class="register-link">
+                            <!-- <div class="register-link">
                                 <p>
                                     Don't you have account?
                                     <a href="#">Sign Up Here</a>
                                 </p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -85,6 +87,14 @@
         </div>
 
     </div>
+
+
+
+
+    <!-- created by me -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+    <script type="text/javascript" src="js/Auth.js"></script>
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
