@@ -292,7 +292,7 @@ function fillTable(path, urlImage1, name, descriptionPlace, rating, typepin,idPl
       '</td>'+
       '<td class="text-justify">'+descriptionPlace+'</td>'+
       '<td style="width:20px">'+rating+'</td>'+
-      '<td>'+typepin+'</td>'+
+      '<td style=""> <div align="center"><img src="images/typePines/'+typepin+'.png" style="border-radius: 25px; width: 50px; height:50px;"/></div></td>'+
       '<td>'+
           '<div class="table-data-feature">'+
             '<button class="item" data-toggle="tooltip" data-placement="top" title="Editar" onclick="getPlace('+"'"+path+"'"+","+"'"+idPlace+"'"+')">'+
