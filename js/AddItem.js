@@ -200,11 +200,9 @@ var loadFile3 = function(event) {
   );
 };
 
-
 function getId(id) {
   return $('#'+id+'').val();
 }
-
 
 $("#frmPlace").submit(function(e){
 
@@ -252,7 +250,6 @@ $("#frmPlace").submit(function(e){
   insertNewPlace(country, state, municipality, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5);
  
 });
-
 
 function insertNewPlace(country, state, municipality, title, description, latitude, longitude, rating, typepin, urlimage1, urlimage2, urlimage3, tip1, tip2, tip3, tip4, tip5) {
 

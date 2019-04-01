@@ -354,7 +354,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <select name="select" id="rating" class="form-control" required="true">
+                                            <select name="select" id="rating" class="form-control" required>
                                                 <option value="0">Rating 1</option>
                                                 <option value="1">Rating 2</option>
                                                 <option value="2">Rating 3</option>                                                   
@@ -362,7 +362,7 @@
                                             </select>                                                    
                                         </div>                                                                                             
                                         <div class="form-group">
-                                            <select name="optionItem" id="optionItem" class="form-control" required="true" onchange="optionItemSelected()">
+                                            <select name="optionItem" id="optionItem" class="form-control" required onchange="optionItemSelected()">
                                                 <!-- <option disabled="true" selected="true">Selecciona un Item</option> -->
                                                 <option value="Pais">Pais</option>
                                                 <option value="Estado">Estado</option>                                                   
@@ -386,10 +386,10 @@
                                             </div>                                                                              
                                         </div>   
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="title" placeholder="Nombre del place" required="true">
+                                            <input class="au-input au-input--full" type="text" id="title" placeholder="Nombre del place" required="true" maxlength="17">
                                         </div>                                        
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="description" placeholder="Descripcion del place" required="true">
+                                            <input class="au-input au-input--full" type="text" id="description" placeholder="Descripcion del place" required="true" maxlength="200">
                                         </div> 
                                         <div class="form-group">
 
@@ -407,19 +407,19 @@
                                         </div>                                                                               
                                         
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="tip1" placeholder="Tip 1" required="true">                                            
+                                            <input class="au-input au-input--full" type="text" id="tip1" placeholder="Tip 1" required="true" maxlength="40">                                            
                                         </div>
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="tip2" placeholder="Tip 2">                                            
+                                            <input class="au-input au-input--full" type="text" id="tip2" placeholder="Tip 2" maxlength="40">                                            
                                         </div>
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="tip3" placeholder="Tip 3">                                            
+                                            <input class="au-input au-input--full" type="text" id="tip3" placeholder="Tip 3" maxlength="40">                                            
                                         </div>
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="tip4" placeholder="Tip 4">                                            
+                                            <input class="au-input au-input--full" type="text" id="tip4" placeholder="Tip 4" maxlength="40">                                            
                                         </div>
                                         <div class="form-group">
-                                            <input class="au-input au-input--full" type="text" id="tip5" placeholder="Tip 5">                                            
+                                            <input class="au-input au-input--full" type="text" id="tip5" placeholder="Tip 5" maxlength="40">                                            
                                         </div>                                                                                                                                                     
                                         <hr>                                             
                                         <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Agregar</button>                                                                    
