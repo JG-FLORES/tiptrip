@@ -45,8 +45,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     // console.log(user);
     $("#lblEmail").append(user.email)
     $("#lblName").append(user.displayName);
-    var output = document.getElementById('imgProfile');
-    output.src = user.photoURL;
+    var imgProfile = document.getElementById('imgProfile');
+    var imgProfileSub = document.getElementById('imgProfileSub');
+    imgProfile.src = user.photoURL;
+    imgProfileSub.src = user.photoURL;
   } else {
     // User is signed out.
     console.log("User is signed out.");

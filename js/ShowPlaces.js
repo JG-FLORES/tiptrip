@@ -33,8 +33,10 @@
       // console.log(user);
       $("#lblEmail").append(user.email);
       $("#lblName").append(user.displayName);
-      var output = document.getElementById('imgProfile');
-      output.src = user.photoURL;
+      var imgProfile = document.getElementById('imgProfile');
+      var imgProfileSub = document.getElementById('imgProfileSub');
+      imgProfile.src = user.photoURL;
+      imgProfileSub.src = user.photoURL;
       // window.location.href = "index.html"
       // ...
     } else {
@@ -348,16 +350,20 @@ function aceptDeletePlace(){
     var municipalitySelected = getId("municipalitySelected");
     var colonySelected = getId("colonySelected");
 
-    var adaRef = firebase.database().ref("places-items/pines/Rojos/"+countrySelected+"/States/"+
-    stateSelected+"/Municipalities/"+municipalitySelected+"/Colonies/"+colonySelected+"/Places/"+idDeletePlace);
+    var path = 'places-items/pines/Rojos/'+countrySelected+'/States/'+
+    stateSelected+'/Municipalities/'+municipalitySelected+'/Colonies/'+colonySelected+'/Places/'+idDeletePlace;
+
+    var adaRef = firebase.database().ref(path);
+
+    // alert(stateSelected)
     adaRef.remove()
       .then(function() {
-        console.log("Remove succeeded.");
+        alert("Remove succeeded.");
 
         idDeletePlace = "";
       })
       .catch(function(error) {
-        console.log("Remove failed: " + error.message)
+        alert("Remove failed: " + error.message)
     });
   }
 

@@ -27,13 +27,14 @@ firebase.auth().onAuthStateChanged(function(user) {
     // User is signed in.
     $("#lblEmail").append(user.email);
 	  $("#lblName").append(user.displayName);
-	  var output = document.getElementById('imgProfile');
-    output.src = user.photoURL;
+    var imgProfile = document.getElementById('imgProfile');
+    var imgProfileSub = document.getElementById('imgProfileSub');
+    imgProfile.src = user.photoURL;
+    imgProfileSub.src = user.photoURL;
 
-   //  user.updateProfile({
-	  // displayName: "JG Flores",
-	  // photoURL: "https://firebasestorage.googleapis.com/v0/b/amole-441d3.appspot.com/o/imagenes%2FCODIGO%20FUENTE.png?alt=media&token=380999e2-fa2f-44ec-b5a3-e2028245e6a6"
-  	// }).then(function() {
+    // user.updateProfile({
+	  // displayName: "Mike",
+	  // photoURL: "https://firebasestorage.googleapis.com/v0/b/amole-441d3.appspot.com/o/AdminProfile%2F1200px-Flag_of_Canada.svg.png?alt=media&token=9948a637-1dd6-4956-aaff-6ee2a686b0b4"
   	//   // Update successful.
   	// }).catch(function(error) {
   	//   // An error happened.
